@@ -39,7 +39,7 @@ const userSchema = new mongoose.Schema(
     },
     //createdAt, updatedAt object
   },
-  { timestaps: true }
+  { timestamps: true }
 );
 
 //pre-save hook to hash password before saving to db
