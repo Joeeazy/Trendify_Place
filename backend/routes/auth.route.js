@@ -9,16 +9,19 @@ import {
 
 const router = express.Router();
 
-//signup route function
+//signup route
 router.post("/signup", signup);
 
-//login route function
+//login route
 router.post("/login", login);
 
-//logout route function
+//logout route
 router.post("/logout", logout);
 
-//create new accesstoken after exipration
+//create new accesstoken after exipration route
 router.post("/refresh-token", refreshToken);
+
+// get users profile route
+//router.get("/profile", getProfile);
 
 export default router;

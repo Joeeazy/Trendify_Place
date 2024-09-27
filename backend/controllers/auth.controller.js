@@ -171,3 +171,6 @@ export const refreshToken = async (req, res) => {
     res.status(500).jsone({ message: "Server error", error: error.message });
   }
 };
+
+//TO BE implemented
+//export const getProfile = async (req, res) => {};
