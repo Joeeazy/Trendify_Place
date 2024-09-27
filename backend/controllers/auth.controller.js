@@ -55,7 +55,7 @@ export const signup = async (req, res) => {
       return res.status(400).json({ message: "User already exists" });
     }
 
-    //create new user
+    //if user doesnt exist create new user in the mongodb
     const user = await User.create({ name, email, password });
 
     //authenticate user
@@ -67,7 +67,7 @@ export const signup = async (req, res) => {
     //set tokens into a cookie
     setCookies(res, accessToken, refreshToken);
 
-    //send a message
+    //send a response to client success message
     res.status(201).json({
       user: {
         _id: user._id,
