@@ -14,6 +14,7 @@ export const getAllProducts = async (req, res) => {
   }
 };
 
+//function to fetch allfeaturedproducts by a customer
 export const getFeaturedProducts = async (req, res) => {
   try {
     //store to mongodb and redisdb for fast access(redis cache)

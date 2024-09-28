@@ -11,5 +11,7 @@ const router = express.Router();
 router.get("/", protectRoute, adminRoute, getAllProducts);
 // viewed by all customers
 router.get("/featured", getFeaturedProducts);
+// route to post products only admin can create product = protected route
+router.post("/", protectRoute, adminRoute, createProduct);
 
 export default router;
