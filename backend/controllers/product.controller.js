@@ -44,6 +44,7 @@ export const getFeaturedProducts = async (req, res) => {
   }
 };
 
+//admin  createproducts functionality
 export const createProduct = async (req, res) => {
   //first save the product to the db
   //second create an image to store in the cloudinary bucket
@@ -72,5 +73,41 @@ export const createProduct = async (req, res) => {
   } catch (error) {
     console.log("Error in the createProduct controller", error.message);
     res.status(500).json({ message: "server error", error: error.message });
+  }
+};
+
+//admin  deleteproducts functionality
+export const deleteProduct = async (req, res) => {
+  //delete product from db and image from cloudinary bucket
+  try {
+    //check for product presence in the db
+    const product = await Product.findById(req.params.id);
+
+    //if no product
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    //check for product image to  delete in cloudinary
+    if (product.image) {
+      //get id of the image
+      const publicId = product.image.split("/").pop().split(".")[0];
+
+      try {
+        //delete from cloudinary using the id gotten above from cloudinary's products folder
+        await cloudinary.uploader.destroy(`products/${publicId}`);
+
+        console.log("deleted iamge from cloudinary successfully");
+      } catch (error) {
+        console.log("error deleteing image frm cloudinary", error);
+      }
+    }
+    //delete product from mongodb
+    await Product.findByIdAndDelete(req.params.id);
+
+    res.json({ message: "Product deleted successfully" });
+  } catch (error) {
+    console.log("Error in deleteproducts controller", error.message);
+    res.status(500).json({ message: "Server Error", error: error.message });
   }
 };
