@@ -2,6 +2,7 @@ import express from "express";
 import {
   getAllProducts,
   getFeaturedProducts,
+  createProduct,
 } from "../controllers/product.controller.js";
 import { protectRoute, adminRoute } from "../middleware/auth.middleware.js";
 
