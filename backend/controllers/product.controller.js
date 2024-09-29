@@ -168,3 +168,50 @@ export const getProductsByCategory = async (req, res) => {
     res.status(500).json({ message: "Server Error", error: error.message });
   }
 };
+
+// Controller to toggle the 'isFeatured' status of a product
+export const toggleFeaturedProduct = async (req, res) => {
+  try {
+    // Find the product by its ID from the request parameters
+    const product = await Product.findById(req.params.id);
+
+    // Check if the product exists
+    if (product) {
+      // Toggle the 'isFeatured' status by flipping its value (true <-> false)
+      product.isFeatured = !product.isFeatured;
+
+      // Save the updated product back to the database
+      const updatedProduct = await product.save();
+
+      // Call the function to update the Redis cache for featured products
+      await updateFeaturedProductsCache();
+
+      // Send the updated product as a response to the client
+      res.json(updatedProduct);
+    } else {
+      // If the product isn't found, respond with a 404 (Not Found) status
+      res.status(404).json({ message: "Product not found" });
+    }
+  } catch (error) {
+    // Log the error message if something goes wrong
+    console.log("Error in the toggleFeaturedProduct controller", error.message);
+
+    // Respond with a 500 (Server Error) status and the error message
+    res.status(500).json({ message: "Server Error", error: error.message });
+  }
+};
+
+// Helper function to update the cache of featured products in Redis
+async function updateFeaturedProductsCache() {
+  try {
+    // Query to find all products that are featured, using 'lean()' for performance
+    // 'lean()' returns plain JavaScript objects instead of full Mongoose documents
+    const featuredProducts = await Product.find({ isFeatured: true }).lean();
+
+    // Update the Redis cache with the list of featured products, converting it to JSON format
+    await redis.set("featured_products", JSON.stringify(featuredProducts));
+  } catch (error) {
+    // Log any errors that occur during the cache update
+    console.log("Error in updateFeaturedProductsCache function");
+  }
+}
