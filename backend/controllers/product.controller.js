@@ -147,3 +147,24 @@ export const getRecommendedProducts = async (req, res) => {
     res.status(500).json({ message: "Server Error", error: error.message });
   }
 };
+
+// Controller to get products based on the category
+export const getProductsByCategory = async (req, res) => {
+  // Destructure 'category' from request parameters
+  const { category } = req.params;
+
+  // Try-catch block for error handling
+  try {
+    // Query the database to find products that match the specified category
+    const products = await Product.find({ category });
+
+    // Send the found products as a JSON response
+    res.json(products);
+  } catch (error) {
+    // Log the error message in case of failure
+    console.log("Error in getProductsByCategory controller", error.message);
+
+    // Send a 500 error response with error details if something goes wrong
+    res.status(500).json({ message: "Server Error", error: error.message });
+  }
+};
