@@ -2,7 +2,7 @@ import express from "express";
 import {
   getAllProducts,
   getFeaturedProducts,
-  getRecommendedProducts
+  getRecommendedProducts,
   createProduct,
   deleteProduct,
 } from "../controllers/product.controller.js";

@@ -111,12 +111,13 @@ export const deleteProduct = async (req, res) => {
     res.status(500).json({ message: "Server Error", error: error.message });
   }
 };
+
 // Controller to get randomly selected recommended products
 export const getRecommendedProducts = async (req, res) => {
   // Try-catch block for error handling
   try {
     // Use the aggregation pipeline to get random products
-    const products = await Products.aggregate([
+    const products = await Product.aggregate([
       {
         // $sample stage to randomly select 3 products from the collection
         $sample: { size: 3 },
