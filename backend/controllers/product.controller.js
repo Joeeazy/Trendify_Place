@@ -111,3 +111,38 @@ export const deleteProduct = async (req, res) => {
     res.status(500).json({ message: "Server Error", error: error.message });
   }
 };
+// Controller to get randomly selected recommended products
+export const getRecommendedProducts = async (req, res) => {
+  // Try-catch block for error handling
+  try {
+    // Use the aggregation pipeline to get random products
+    const products = await Products.aggregate([
+      {
+        // $sample stage to randomly select 3 products from the collection
+        $sample: { size: 3 },
+      },
+      {
+        // $project stage to specify the fields to return
+        $project: {
+          _id: 1, // Include the product ID
+          name: 1, // Include the product name
+          description: 1, // Include the product description
+          image: 1, // Include the product image
+          price: 1, // Include the product price
+        },
+      },
+    ]);
+
+    // Send the selected products back as a JSON response
+    res.json(products);
+  } catch (error) {
+    // Log the error to the console if something goes wrong
+    console.log(
+      "Error in the getRecommendedProducts controller",
+      error.message
+    );
+
+    // Send a 500 error response to the client indicating a server error
+    res.status(500).json({ message: "Server Error", error: error.message });
+  }
+};
