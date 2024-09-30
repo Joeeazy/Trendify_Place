@@ -1,4 +1,4 @@
-import Product from "../models/product.model,js";
+import Product from "../models/product.model.js";
 
 // Controller function to retrieve products in the user's cart
 export const getCartProducts = async (req, res) => {
