@@ -1,3 +1,33 @@
+import Product from "../models/product.model,js";
+
+// Controller function to retrieve products in the user's cart
+export const getCartProducts = async (req, res) => {
+  try {
+    // Find all products in the user's cart by matching their IDs
+    const products = await Product.find({ _id: { $in: req.user.cartItems } });
+
+    // Add the corresponding quantity to each product from the user's cartItems
+    const cartItems = products.map((product) => {
+      // Find the corresponding cart item for the product to get its quantity
+      const item = req.user.cartItems.find(
+        (cartItem) => cartItem.id === product.id
+      );
+
+      // Return the product details with the added quantity information
+      return { ...product.toJSON(), quantity: item.quantity };
+    });
+
+    // Send back the cart items with product details and quantities as a JSON response
+    res.json(cartItems);
+  } catch (error) {
+    // Log the error message for debugging purposes
+    console.log("Error in the getCartProducts controller", error.message);
+
+    // Handle any server errors by returning a 500 status and an error message
+    res.status(500).json({ message: "Server Error", error: error.message });
+  }
+};
+
 // Controller function to handle adding items to the cart
 export const addToCart = async (req, res) => {
   try {
@@ -104,5 +134,3 @@ export const updateQuantity = async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
-
-export const getCartProducts = async (req, res) => {};
