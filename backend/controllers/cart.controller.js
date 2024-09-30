@@ -60,6 +60,49 @@ export const removeAllFromCart = async (req, res) => {
   }
 };
 
-export const updateQuantity = async (req, res) => {};
+// Controller function to update the quantity of a product in the cart
+export const updateQuantity = async (req, res) => {
+  try {
+    // Extract the productId from the request parameters
+    const { id: productId } = req.params;
+
+    // Get the new quantity from the request body
+    const quantity = req.body;
+
+    // Get the user object from the request (usually populated by authentication middleware)
+    const user = req.user;
+
+    // Find the product in the user's cart
+    const existingItem = user.cartItems.find((item) => item.id === productId);
+
+    // If the product exists in the cart
+    if (existingItem) {
+      // If the quantity is set to 0, remove the product from the cart
+      if (quantity === 0) {
+        user.cartItems = user.cartItems.filter((item) => item.id != productId);
+
+        // Save the updated cart and return the modified cart
+        await user.save();
+        return res.json(user.cartItems); // Use 'return' to exit after removing the item
+      }
+
+      // Otherwise, update the product's quantity in the cart
+      existingItem.quantity = quantity;
+
+      // Save the updated cart and return the modified cart
+      await user.save();
+      res.json(user.cartItems);
+    } else {
+      // If the product is not found in the cart, return a 404 error
+      res.status(404).json({ message: "Product not found" });
+    }
+  } catch (error) {
+    // Log the error message for debugging purposes
+    console.log("Error in the updateQuantity controller", error.message);
+
+    // Handle any server errors by returning a 500 status and an error message
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
 
 export const getCartProducts = async (req, res) => {};
