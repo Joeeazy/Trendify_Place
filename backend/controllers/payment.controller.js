@@ -68,6 +68,13 @@ export const createCheckoutSession = async (req, res) => {
       metadata: {
         userId: req.user._id.toString(), // Store user ID in the metadata
         couponCode: couponCode || "", // Store coupon code in the metadata (if available)
+        products: JSON.stringify(
+          products.map((p) => ({
+            id: p._id,
+            quantity: p.quantity,
+            price: p.price,
+          }))
+        ),
       },
     });
 
