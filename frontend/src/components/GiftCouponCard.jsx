@@ -1,5 +1,4 @@
 import { motion } from "framer-motion";
-import { CloudSnow } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useCartStore } from "../stores/useCartStore";
 
