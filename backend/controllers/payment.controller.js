@@ -17,7 +17,7 @@ export const createCheckoutSession = async (req, res) => {
 
     // Map through the products array to create line items for Stripe checkout
     const lineItems = products.map((product) => {
-      const amount = product.price * 100; // Stripe requires amounts in cents
+      const amount = Math.round(product.price * 100); // Stripe requires amounts in cents
       totalAmount += amount * product.quantity; // Calculate total amount for all items
 
       // Return the line item data required by Stripe
@@ -30,6 +30,7 @@ export const createCheckoutSession = async (req, res) => {
           },
           unit_amount: amount, // Price per unit in cents
         },
+        quantity: product.quantity || 1,
       };
     });
 
@@ -58,7 +59,7 @@ export const createCheckoutSession = async (req, res) => {
       line_items: lineItems, // Line items for the products
       mode: "payment", // Payment mode (one-time)
       success_url: `${process.env.CLIENT_URL}/purchase-success?session_id={CHECKOUT_SESSION_ID}`, // Redirect URL on success
-      cance_url: `${process.env.CLIENT_URL}/purchase-cancel`, // Redirect URL on cancellation
+      cancel_url: `${process.env.CLIENT_URL}/purchase-cancel`, // Redirect URL on cancellation
       discounts: coupon
         ? [
             {
@@ -106,6 +107,7 @@ async function createStripeCoupon(discountPercentage) {
 
 // Function to create a new coupon in the database for the user after purchase
 async function createNewCoupon(userId) {
+  await Coupon.findOneAndDelete({ userId });
   const newCoupon = new Coupon({
     code: "GIFT" + Math.random().toString(36).substring(2, 8).toUpperCase(), // Generate a random coupon code
     discountPercentage: 10, // Set the discount to 10%
