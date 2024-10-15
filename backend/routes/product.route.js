@@ -28,7 +28,7 @@ router.get("/recommendations", getRecommendedProducts);
 router.post("/", protectRoute, adminRoute, createProduct);
 
 // updates by admin on featured products route
-router.patch("/", protectRoute, adminRoute, toggleFeaturedProduct);
+router.patch("/:id", protectRoute, adminRoute, toggleFeaturedProduct);
 
 // route to delete products only admin can delete product = protected route
 router.delete("/:id", protectRoute, adminRoute, deleteProduct);

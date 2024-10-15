@@ -97,7 +97,7 @@ export const updateQuantity = async (req, res) => {
     const { id: productId } = req.params;
 
     // Get the new quantity from the request body
-    const quantity = req.body;
+    const { quantity } = req.body;
 
     // Get the user object from the request (usually populated by authentication middleware)
     const user = req.user;
