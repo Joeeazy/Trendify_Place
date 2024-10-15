@@ -4,8 +4,8 @@ import { motion } from "framer-motion";
 import { ShoppingCart } from "lucide-react";
 import CartItem from "../components/CartItem ";
 import PeopleAlsoBought from "../components/PeopleAlsoBought";
-// import OrderSummary from "../components/OrderSummary";
-// import GiftCouponCard from "../components/GiftCouponCard";
+import OrderSummary from "../components/OrderSummary";
+import GiftCouponCard from "../components/GiftCouponCard";
 
 export default function CartPage() {
   const { cart } = useCartStore();
@@ -30,6 +30,18 @@ export default function CartPage() {
             )}
             {cart.length > 0 && <PeopleAlsoBought />}
           </motion.div>
+
+          {cart.length > 0 && (
+            <motion.div
+              className="mx-auto mt-6 max-w-4xl flex-1 space-y-6 lg:mt-0 lg:w-full"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+            >
+              <OrderSummary />
+              <GiftCouponCard />
+            </motion.div>
+          )}
         </div>
       </div>
     </div>
