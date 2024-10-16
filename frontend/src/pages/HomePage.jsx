@@ -60,21 +60,11 @@ function HomePage() {
                 Discover the latest trends in eco-friendly fashion
               </motion.p>
 
-              <motion.div
-                initial={{ opacity: 0, y: 100 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{
-                  type: "spring",
-                  stiffness: 100,
-                  damping: 10,
-                  delay: 1,
-                }}
-                className="grid xl:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 items-end  justify-center gap-12 shadow-sm"
-              >
+              <div className="grid xl:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 items-end  justify-center gap-12 shadow-sm">
                 {categories.map((category) => (
                   <CategoryItem category={category} key={category.name} />
                 ))}
-              </motion.div>
+              </div>
             </div>
 
             {/* Featured Products Section */}
