@@ -15,13 +15,23 @@ function Navbar() {
   const { cart } = useCartStore();
   const isAdmin = user?.role === "admin";
 
+  const navItems = [
+    { title: "Jeans", path: "/category/jeans" },
+    { title: "T-shirts", path: "/category/t-shirts" },
+    { title: "Shoes", path: "/category/shoes" },
+    { title: "Glasses", path: "/category/glasses" },
+    { title: "Jackets", path: "/category/jackets" },
+    { title: "Suits", path: "/category/suits" },
+    { title: "Bags", path: "/category/bags" },
+  ];
+
   return (
-    <header className="fixed top-0 left-0 w-full bg-gray-900 bg-opacity-90 backdrop-blur-md shadow-lg z-40 transition-all duration-300 border-b border-emerald-800">
-      <div className="container mx-auto px-4 py-3">
+    <header className="fixed top-0 left-0 px-4 py-3 w-full bg-gray-900 bg-opacity-90 backdrop-blur-md  z-40 transition-all duration-300 ">
+      <div className="container mx-auto  shadow-lg border-b border-emerald-800">
         <div className="flex flex-wrap justify-between items-center">
           <Link
             to="/"
-            className="text-2xl font-bold text-emerald-400 items-center space-x-2 flex"
+            className="text-2xl font-bold  text-emerald-400 tracking-tight items-center space-x-2 flex"
           >
             Trendify E-commerce
           </Link>
@@ -91,6 +101,21 @@ function Navbar() {
             )}
           </nav>
         </div>
+      </div>
+      <div className="pt-4">
+        <ul className="lg:flex items-center justify-between text-white hidden">
+          {navItems.map(
+            (
+              { title, path },
+              index // Corrected destructuring
+            ) => (
+              <li key={index} className="hover:text-emerald-500">
+                <Link to={path}>{title}</Link>{" "}
+                {/* Changed anchor tag to Link */}
+              </li>
+            )
+          )}
+        </ul>
       </div>
     </header>
   );

@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Toaster } from "react-hot-toast";
 import { Navigate, Route, Routes } from "react-router-dom";
+import Banner from "./components/Banner";
 import LoadingSpinner from "./components/LoadingSpinner";
 import Navbar from "./components/Navbar";
 import AdminPage from "./pages/AdminPage";
