@@ -29,6 +29,12 @@ export const useCartStore = create((set, get) => ({
     }
   },
 
+  removeCoupon: () => {
+    set({ coupon: null, isCouponApplied: false });
+    get().calculateTotals();
+    toast.success("Coupon removed");
+  },
+
   getCartItems: async () => {
     try {
       const res = await axios.get("/cart");
