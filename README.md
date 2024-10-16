@@ -4,6 +4,8 @@
 
 Trendify Ecommerce is a full-stack web application designed for a seamless shopping experience. The project features an admin dashboard, sales analytics, and a secure payment gateway. It integrates a robust authentication system using JWT tokens with access and refresh tokens, along with MongoDB and Redis for efficient data management.
 
+![Readme.md](/frontend/public/readme.png)
+
 ## Technologies
 
 ### Frontend
