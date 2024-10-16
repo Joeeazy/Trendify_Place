@@ -7,6 +7,6 @@ const router = express.Router();
 //two endpoints getCurrentUserCoupon & validateCoupons
 
 router.get("/", protectRoute, getCoupon);
-router.get("/validate", protectRoute, validateCoupon);
+router.post("/validate", protectRoute, validateCoupon);
 
 export default router;

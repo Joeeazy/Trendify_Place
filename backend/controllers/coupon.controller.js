@@ -8,7 +8,6 @@ export const getCoupon = async (req, res) => {
       userId: req.user._id,
       isActive: true,
     });
-
     // Return the coupon if found, otherwise return null
     res.json(coupon || null);
   } catch (error) {
